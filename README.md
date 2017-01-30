@@ -6,11 +6,41 @@
 
 Procfile set up to run on [heroku]
 
-## Request & Response Examples
-API Resources
+## API Resources
 
-#### POST /users/
+### POST /users/
 Creates a new user.
+#### Example
+#### Request body:
+**Required Fields**
+```
+{
+  "username": "test@test.com",
+  "role": 1   // the role will be 1 => admin, 2 => teacher, 3 => student
+}
+```
+Note: the `role` field will be 1 for admin, 2 for teacher, and 3 for student.
+**Optional Fields**
+```
+{
+  "categories": "test@test.com",
+  "activities": 1
+}
+```
+
+#### Response data:
+```
+{
+  "message": "User created!",
+  "user": {
+    "__v": 0,
+    "role": 1,
+    "username": "test100",
+    "_id": "588fb92fbcfa0136c6cd821a",
+    "id": "588fb92fbcfa0136c6cd821a"
+  }
+}
+```
 
 #### GET /users/
 Returns a list of users as users, including subcategories nested.
