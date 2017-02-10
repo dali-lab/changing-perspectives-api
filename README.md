@@ -1,12 +1,23 @@
 # Changing Perspectives API
 
+TODO: add project description
+
+## Setup
+
+To set up the dev environment, just run `npm install`.
+
+## Deployment
+
+To run the development server, run `npm run dev`.
+To run the production server, run `npm run prod`.
+
+## Architecture
+
 * node with babel
 * expressjs
 * mongoDB
 
 Procfile set up to run on [heroku]
-
-## API Resources
 
 ### POST /users/
 Creates a new user.
