@@ -53,4 +53,15 @@ router.route('/categories')
       Categories.createCategory(req, res);
     });
 
+router.route('/users/:id')
+      .get((req, res) => {
+        Categories.getUser(req, res);
+      })
+      .put((req, res) => {
+        Categories.updateCategory(req, res);
+      })
+      .delete((req, res) => {
+        Categories.deleteCategory(req, res);
+      });
+
 export default router;
