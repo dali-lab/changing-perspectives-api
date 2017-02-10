@@ -16,7 +16,7 @@ export const createCategory = (req, res) => {
 };
 
 // TODO: build this function
-export const getcategory = (req, res) => {
+export const getCategory = (req, res) => {
   CategoryModel.findById(req.params.id)
     .then(result => {
       res.json({ message: 'Single Category found!', category: result });
