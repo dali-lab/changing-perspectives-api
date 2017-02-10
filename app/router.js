@@ -46,7 +46,7 @@ router.route('/activities/:id')
   });
 router.route('/categories')
     .get((req, res) => {
-      Categories.getCategories(req, res);
+      Categories.getCategory(req, res);
     })
     .post((req, res) => {
       Categories.createCategory(req, res);

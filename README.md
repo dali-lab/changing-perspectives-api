@@ -20,7 +20,7 @@ To run the production server, run `npm run prod`.
 Procfile set up to run on [heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)
 
 # Request & Response Examples
-
+DDDDD
 ### POST /users/
 Creates a new user.
 #### Request body:
@@ -248,6 +248,63 @@ Updates a body element of an activity by ID.
     "n": 0,
     "nModified": 0,
     "ok": 1
+  }
+}
+```
+
+#### POST /categories/
+Creates a new category
+### Request body:
+**Required Fields**
+```
+{
+  "categoryName": "test@test.com",
+  "gradeLevels":   [1,2]
+}
+```
+Note: gradeLevels is a list of numbers for each grade
+
+#### Response data:
+```
+{
+  "message": "Category created!",
+  "category": {
+    "gradeLevels": [1,3],
+    "name": "disability1",
+    "_id": "588fb92fbcfa0136c6cd821a",
+  }
+}
+```
+#### GET /categories/
+Returns a list of categories
+#### Response data:
+```
+{
+  "message": "All categories returned!",
+  "categories": [
+    {
+      "_id": "588fb92fbcfa0136c6cd821a",
+      "gradeLevels": [2,3,4,5],
+      "name": "disability4"
+    },
+    {
+      "_id": "588fb92fbcfa0136c6cd821a",
+      "gradeLevels": [0,1],
+      "name": "disability8"
+    }
+  ]
+}
+```
+#### GET /category/:id
+Gets a category by its ID.
+#### Response data:
+```
+{
+  "message": "Single Category found!",
+  "category": {
+    "_id": "588fbb85bcfa0136c6cd821b",
+    "gradeLevels": [1,2,3],
+    "name": disability4
   }
 }
 ```
