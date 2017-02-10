@@ -3,7 +3,6 @@
 import { Router } from 'express';
 import * as Users from './controllers/user_controller';
 import * as Activities from './controllers/activity_controller';
-import * as Categories from './controllers/categoryController';
 
 const router = new Router();
 
@@ -44,12 +43,6 @@ router.route('/activities/:id')
   .delete((req, res) => {
     Activities.deleteActivity(req, res);
   });
-router.route('/categories')
-    .get((req, res) => {
-      Categories.getCategory(req, res);
-    })
-    .post((req, res) => {
-      Categories.createCategory(req, res);
-    });
+
 
 export default router;
