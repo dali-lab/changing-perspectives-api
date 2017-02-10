@@ -17,11 +17,12 @@ To run the production server, run `npm run prod`.
 * expressjs
 * mongoDB
 
-Procfile set up to run on [heroku]
+Procfile set up to run on [heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)
+
+# Request & Response Examples
 
 ### POST /users/
 Creates a new user.
-#### Example
 #### Request body:
 **Required Fields**
 ```
