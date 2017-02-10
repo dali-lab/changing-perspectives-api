@@ -16,6 +16,16 @@ export const createCategory = (req, res) => {
 };
 
 // TODO: build this function
+
+export const getCategories = (req, res) => {
+  CategoryModel.find()
+    .then(result => {
+      res.json({ message: 'All categories returned!', users: result });
+    })
+    .catch(error => {
+      res.json({ error });
+    });
+};
 export const getCategory = (req, res) => {
   CategoryModel.findById(req.params.id)
     .then(result => {
