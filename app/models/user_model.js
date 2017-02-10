@@ -34,7 +34,11 @@ const UserSchema = new Schema({
     ref: 'User',
   }, // this field will only be used when the user is a student
   expirationDate: Date,
-  // mascot: Number, if we decide to allow users to select their mascot
+  mascot: Number, // if we decide to allow users to select their mascot
+  classroom: {
+    type: Schema.Types.ObjectId,
+    ref: 'Classroom',
+  },
 });
 
 UserSchema.set('toJSON', {

@@ -14,6 +14,8 @@ export const createUser = (req, res) => {
   user.categories = req.body.categories;
   user.students = req.body.students;
   user.teacher = req.body.teacher;
+  user.mascot = req.body.mascot;
+  user.classroom = req.body.classroom;
   user.expirationDate = req.body.expirationDate;
   console.log(req.body, user);
   user.save()
