@@ -308,7 +308,7 @@ Returns a list of activities as activities, including subcategories nested.
 }
 ```
 
-## GET /activities/:id/
+## GET /api/activities/:id
 Gets an activity by ID.
 ### Response data:
 ```
@@ -332,7 +332,7 @@ Gets an activity by ID.
 }
 ```
 
-## DELETE /activities/:id/
+## DELETE /api/activities/:id
 Deletes an activity if the delete is permitted. Returns a json error in the case of failure to delete.
 ### Response data:
 ```
@@ -345,7 +345,7 @@ Deletes an activity if the delete is permitted. Returns a json error in the case
 }
 ```
 
-## PUT /activities/:id/
+## PUT /api/activities/:id
 Updates a body element of an activity by ID.
 ### Response data:
 ```
