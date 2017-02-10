@@ -1,5 +1,5 @@
 {
-  "name": "example_express_with_es6",
+  "name": "changing-perspectives-api",
   "version": "1.0.0",
   "description": "",
   "author": "",
@@ -9,7 +9,8 @@
     "dev": "nodemon app/server.js --exec babel-node",
     "start": "babel-node app/server.js",
     "build": "babel app -d dist",
-    "prod": "npm run build; node dist/server.js"
+    "prod": "npm run build; node dist/server.js",
+    "lint": "eslint app/"
   },
   "license": "ISC",
   "dependencies": {
