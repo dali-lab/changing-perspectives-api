@@ -20,7 +20,7 @@ export const createCategory = (req, res) => {
 export const getCategories = (req, res) => {
   CategoryModel.find()
     .then(result => {
-      res.json({ message: 'All categories returned!', users: result });
+      res.json({ message: 'All categories returned!', categories: result });
     })
     .catch(error => {
       res.json({ error });

@@ -4,7 +4,7 @@ import mongoose, { Schema } from 'mongoose';
 
 // the schema for the category model
 const categorySchema = new Schema({
-  categoryName: {
+  name: {
     type: String,
     required: true,
   }, // 1=>autism, 2=>hearing, 3=>visual, 4=>learning, 5=>physical, 6=>social, 7=>speech, 8=>cognitive

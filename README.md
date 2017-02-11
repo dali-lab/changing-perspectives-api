@@ -252,6 +252,7 @@ Updates a body element of an activity by ID.
 }
 ```
 
+
 #### POST /categories/
 Creates a new category
 ### Request body:
@@ -267,11 +268,11 @@ Note: gradeLevels is a list of numbers for each grade
 #### Response data:
 ```
 {
-  "message": "Category created!",
+  "message": "category created!",
   "category": {
-    "gradeLevels": [1,3],
-    "name": "disability1",
-    "_id": "588fb92fbcfa0136c6cd821a",
+    "__v": 0,
+    "name": "lmaoPlzWorkLesGOOOO",
+    "_id": "589e3824d0c7b910a527e540"
   }
 }
 ```
@@ -283,14 +284,16 @@ Returns a list of categories
   "message": "All categories returned!",
   "categories": [
     {
-      "_id": "588fb92fbcfa0136c6cd821a",
-      "gradeLevels": [2,3,4,5],
-      "name": "disability4"
+      "_id": "589e37e2d0c7b910a527e53f",
+      "name": "category1",
+      "__v": 0,
+      "gradeLevel": []
     },
     {
-      "_id": "588fb92fbcfa0136c6cd821a",
-      "gradeLevels": [0,1],
-      "name": "disability8"
+      "_id": "589e3824d0c7b910a527e540",
+      "name": "lmaoPlzWorkLesGOOOO",
+      "__v": 0,
+      "gradeLevel": []
     }
   ]
 }
@@ -302,9 +305,37 @@ Gets a category by its ID.
 {
   "message": "Single Category found!",
   "category": {
-    "_id": "588fbb85bcfa0136c6cd821b",
-    "gradeLevels": [1,2,3],
-    "name": disability4
+    "_id": "589e6fdb8a2e2612113a9589",
+    "name": "doug",
+    "__v": 0,
+    "gradeLevel": []
+  }
+}
+```
+
+#### DELETE /categories/:id/
+Deletes a category if the delete is permitted. Returns a json error in the case of failure to delete.
+#### Response data:
+```
+{
+  "message": "Category Removed!",
+  "category": {
+    "n": 1,
+    "ok": 1
+  }
+}
+```
+
+#### PUT /categories/:id/
+Updates a body element of a category by ID.
+#### Response data:
+```
+{
+  "message": "Category Updated!",
+  "category": {
+    "n": 1,
+    "nModified": 0,
+    "ok": 1
   }
 }
 ```

@@ -53,9 +53,9 @@ router.route('/categories')
       Categories.createCategory(req, res);
     });
 
-router.route('/users/:id')
+router.route('/categories/:id')
       .get((req, res) => {
-        Categories.getUser(req, res);
+        Categories.getCategory(req, res);
       })
       .put((req, res) => {
         Categories.updateCategory(req, res);
