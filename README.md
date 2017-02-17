@@ -20,7 +20,6 @@ To run the production server, run `npm run prod`.
 Procfile set up to run on [heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)
 
 # Request & Response Examples
-
 ### POST /users/
 Creates a new user.
 #### Request body:
@@ -246,6 +245,94 @@ Updates a body element of an activity by ID.
   "message": "Activity Updated!",
   "activity": {
     "n": 0,
+    "nModified": 0,
+    "ok": 1
+  }
+}
+```
+
+
+#### POST /categories/
+Creates a new category
+### Request body:
+**Required Fields**
+```
+{
+  "name": "Physical Disabilities",
+  "gradeLevel": 1
+}
+```
+Note: gradeLevel is 1, 2, or 3 => 1 is "easy", 2 is "medium", 3 is "hard"
+
+#### Response data:
+```
+{
+  "message": "category created!",
+  "category": {
+    "__v": 0,
+    "name": "Physical Disabilities",
+    "_id": "589e3824d0c7b910a527e540"
+  }
+}
+```
+#### GET /categories/
+Returns a list of categories
+#### Response data:
+```
+{
+  "message": "All categories returned!",
+  "categories": [
+    {
+      "_id": "589e37e2d0c7b910a527e53f",
+      "name": "category1",
+      "__v": 0,
+      "gradeLevel": 3
+    },
+    {
+      "_id": "589e3824d0c7b910a527e540",
+      "name": "lmaoPlzWorkLesGOOOO",
+      "__v": 0,
+      "gradeLevel": 2
+    }
+  ]
+}
+```
+#### GET /category/:id
+Gets a category by its ID.
+#### Response data:
+```
+{
+  "message": "Single Category found!",
+  "category": {
+    "_id": "589e6fdb8a2e2612113a9589",
+    "name": "doug",
+    "__v": 0,
+    "gradeLevel": 1
+  }
+}
+```
+
+#### DELETE /categories/:id/
+Deletes a category if the delete is permitted. Returns a json error in the case of failure to delete.
+#### Response data:
+```
+{
+  "message": "Category Removed!",
+  "category": {
+    "n": 1,
+    "ok": 1
+  }
+}
+```
+
+#### PUT /categories/:id/
+Updates a body element of a category by ID.
+#### Response data:
+```
+{
+  "message": "Category Updated!",
+  "category": {
+    "n": 1,
     "nModified": 0,
     "ok": 1
   }
