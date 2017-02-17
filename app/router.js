@@ -4,6 +4,7 @@ import { Router } from 'express';
 import * as Users from './controllers/user_controller';
 import * as Activities from './controllers/activity_controller';
 import * as Classrooms from './controllers/classroom_controller';
+import * as Categories from './controllers/categoryController';
 
 const router = new Router();
 
@@ -63,5 +64,24 @@ router.route('/activities/:id')
   .delete((req, res) => {
     Activities.deleteActivity(req, res);
   });
+
+router.route('/categories')
+    .get((req, res) => {
+      Categories.getCategories(req, res);
+    })
+    .post((req, res) => {
+      Categories.createCategory(req, res);
+    });
+
+router.route('/categories/:id')
+      .get((req, res) => {
+        Categories.getCategory(req, res);
+      })
+      .put((req, res) => {
+        Categories.updateCategory(req, res);
+      })
+      .delete((req, res) => {
+        Categories.deleteCategory(req, res);
+      });
 
 export default router;
