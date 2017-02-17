@@ -8,7 +8,7 @@ const categorySchema = new Schema({
     type: String,
     required: true,
   }, // 1=>autism, 2=>hearing, 3=>visual, 4=>learning, 5=>physical, 6=>social, 7=>speech, 8=>cognitive
-  gradeLevel: [Number],
+  gradeLevel: [Number], // 1: grades K-2, 2: grades 3-5, 3: grades 6-8
   url: String,  // url where the html for the category can be found
   img: String, // url to the image
 });
