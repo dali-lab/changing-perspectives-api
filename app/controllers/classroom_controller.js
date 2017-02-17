@@ -6,8 +6,9 @@ export const createClassroom = (req, res) => {
   const classroom = new ClassroomModel();
   classroom.name = req.body.name;
   classroom.imageUrl = req.body.imageUrl;
-  classroom.expirationDate = req.body.expirationDate;
+  classroom.students = req.body.students;
   classroom.teacher = req.body.teacher;
+  classroom.expirationDate = req.body.expirationDate;
   classroom.save()
     .then(result => {
       res.json({ message: 'Classroom created!', classroom: result });
