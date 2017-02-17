@@ -360,7 +360,7 @@ Updates a body element of an activity by ID.
 ```
 
 
-#### POST /categories/
+## POST /api/categories
 Creates a new category
 ### Request body:
 **Required Fields**
@@ -371,8 +371,7 @@ Creates a new category
 }
 ```
 Note: gradeLevel is 1, 2, or 3 => 1 is "easy", 2 is "medium", 3 is "hard"
-
-#### Response data:
+### Response data:
 ```
 {
   "message": "category created!",
@@ -383,9 +382,10 @@ Note: gradeLevel is 1, 2, or 3 => 1 is "easy", 2 is "medium", 3 is "hard"
   }
 }
 ```
-#### GET /categories/
+
+## GET /api/categories/
 Returns a list of categories
-#### Response data:
+### Response data:
 ```
 {
   "message": "All categories returned!",
@@ -405,9 +405,10 @@ Returns a list of categories
   ]
 }
 ```
-#### GET /category/:id
+
+## GET /api/categories/:id
 Gets a category by its ID.
-#### Response data:
+### Response data:
 ```
 {
   "message": "Single Category found!",
@@ -420,28 +421,28 @@ Gets a category by its ID.
 }
 ```
 
-#### DELETE /categories/:id/
-Deletes a category if the delete is permitted. Returns a json error in the case of failure to delete.
-#### Response data:
-```
-{
-  "message": "Category Removed!",
-  "category": {
-    "n": 1,
-    "ok": 1
-  }
-}
-```
-
-#### PUT /categories/:id/
+## PUT /api/categories/:id/
 Updates a body element of a category by ID.
-#### Response data:
+### Response data:
 ```
 {
   "message": "Category Updated!",
   "category": {
     "n": 1,
     "nModified": 0,
+    "ok": 1
+  }
+}
+```
+
+## DELETE /api/categories/:id
+Deletes a category if the delete is permitted. Returns a json error in the case of failure to delete.
+### Response data:
+```
+{
+  "message": "Category Removed!",
+  "category": {
+    "n": 1,
     "ok": 1
   }
 }
