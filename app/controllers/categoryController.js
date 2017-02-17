@@ -1,3 +1,5 @@
+// categoryController.js
+
 import CategoryModel from '../models/categoryModel';
 
 export const createCategory = (req, res) => {
@@ -15,8 +17,7 @@ export const createCategory = (req, res) => {
     });
 };
 
-// TODO: build this function
-
+// TODO: add functionality to query for categories by level or name
 export const getCategories = (req, res) => {
   CategoryModel.find()
     .then(result => {
@@ -26,6 +27,7 @@ export const getCategories = (req, res) => {
       res.json({ error });
     });
 };
+
 export const getCategory = (req, res) => {
   CategoryModel.findById(req.params.id)
     .then(result => {

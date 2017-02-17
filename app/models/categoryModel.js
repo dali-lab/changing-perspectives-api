@@ -7,9 +7,12 @@ const categorySchema = new Schema({
   name: {
     type: String,
     required: true,
-  }, // 1=>autism, 2=>hearing, 3=>visual, 4=>learning, 5=>physical, 6=>social, 7=>speech, 8=>cognitive
-  gradeLevel: [Number], // 1: grades K-2, 2: grades 3-5, 3: grades 6-8
-  url: String,  // url where the html for the category can be found
+  },
+  gradeLevel: { // 1: grades K-2, 2: grades 3-5, 3: grades 6-8
+    type: Number,
+    required: true,
+  },
+  url: String,  // how the category name will show up in the URL
   img: String, // url to the image
 });
 

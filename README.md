@@ -20,7 +20,6 @@ To run the production server, run `npm run prod`.
 Procfile set up to run on [heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)
 
 # Request & Response Examples
-DDDDD
 ### POST /users/
 Creates a new user.
 #### Request body:
@@ -259,11 +258,11 @@ Creates a new category
 **Required Fields**
 ```
 {
-  "categoryName": "test@test.com",
-  "gradeLevels":   [1,2]
+  "name": "Physical Disabilities",
+  "gradeLevel": 1
 }
 ```
-Note: gradeLevels is a list of numbers for each grade
+Note: gradeLevel is 1, 2, or 3 => 1 is "easy", 2 is "medium", 3 is "hard"
 
 #### Response data:
 ```
@@ -271,7 +270,7 @@ Note: gradeLevels is a list of numbers for each grade
   "message": "category created!",
   "category": {
     "__v": 0,
-    "name": "lmaoPlzWorkLesGOOOO",
+    "name": "Physical Disabilities",
     "_id": "589e3824d0c7b910a527e540"
   }
 }
@@ -287,13 +286,13 @@ Returns a list of categories
       "_id": "589e37e2d0c7b910a527e53f",
       "name": "category1",
       "__v": 0,
-      "gradeLevel": []
+      "gradeLevel": 3
     },
     {
       "_id": "589e3824d0c7b910a527e540",
       "name": "lmaoPlzWorkLesGOOOO",
       "__v": 0,
-      "gradeLevel": []
+      "gradeLevel": 2
     }
   ]
 }
@@ -308,7 +307,7 @@ Gets a category by its ID.
     "_id": "589e6fdb8a2e2612113a9589",
     "name": "doug",
     "__v": 0,
-    "gradeLevel": []
+    "gradeLevel": 1
   }
 }
 ```
