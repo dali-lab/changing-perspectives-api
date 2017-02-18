@@ -3,6 +3,7 @@
 import { Router } from 'express';
 import * as Users from './controllers/user_controller';
 import * as Activities from './controllers/activity_controller';
+import * as Classrooms from './controllers/classroom_controller';
 import * as Categories from './controllers/categoryController';
 
 const router = new Router();
@@ -24,6 +25,25 @@ router.route('/users/:id')
   })
   .delete((req, res) => {
     Users.deleteUser(req, res);
+  });
+
+router.route('/classrooms')
+  .get((req, res) => {
+    Classrooms.getClassrooms(req, res);
+  })
+  .post((req, res) => {
+    Classrooms.createClassroom(req, res);
+  });
+
+router.route('/classrooms/:id')
+  .get((req, res) => {
+    Classrooms.getClassroom(req, res);
+  })
+  .put((req, res) => {
+    Classrooms.updateClassroom(req, res);
+  })
+  .delete((req, res) => {
+    Classrooms.deleteClassroom(req, res);
   });
 
 router.route('/activities')

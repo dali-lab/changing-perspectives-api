@@ -20,27 +20,31 @@ To run the production server, run `npm run prod`.
 Procfile set up to run on [heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)
 
 # Request & Response Examples
-### POST /users/
+## POST /api/users
 Creates a new user.
-#### Request body:
+### Request body:
 **Required Fields**
 ```
 {
-  "username": "test@test.com",
-  "role": 1   // the role will be 1 => admin, 2 => teacher, 3 => student
+  "username": "test100",
+  "role": 1
 }
 ```
 Note: the `role` field will be 1 for admin, 2 for teacher, and 3 for student.
-
-#### Optional Fields
+### Optional Fields
 ```
 {
   "categories": "test@test.com",
-  "activities": 1
+  "activities": [
+    {
+      id: ACTIVITY_ID,
+      started_activity: "1/1/17 1:00pm",
+      finished_activity: "1/1/17 2:00pm"
+    },
+  ]
 }
 ```
-
-#### Response data:
+### Response data:
 ```
 {
   "message": "User created!",
@@ -54,9 +58,9 @@ Note: the `role` field will be 1 for admin, 2 for teacher, and 3 for student.
 }
 ```
 
-#### GET /users/
+## GET /api/users
 Returns a list of users as users, including subcategories nested.
-#### Response data:
+### Response data:
 ```
 {
   "message": "All users returned!",
@@ -86,9 +90,10 @@ Returns a list of users as users, including subcategories nested.
   ]
 }
 ```
-#### GET /users/:id
+
+## GET /api/users/:id
 Gets a user by ID.
-#### Response data:
+### Response data:
 ```
 {
   "message": "Single User found!",
@@ -105,9 +110,10 @@ Gets a user by ID.
   }
 }
 ```
-#### DELETE /users/:id/
+
+## DELETE /api/users/:id
 Deletes a user if the delete is permitted. Returns a json error in the case of failure to delete.
-#### Response data:
+### Response data:
 ```
 {
   "message": "User Removed!",
@@ -117,9 +123,10 @@ Deletes a user if the delete is permitted. Returns a json error in the case of f
   }
 }
 ```
-#### PUT /users/:id/
+
+## PUT /api/users/:id
 Updates a body element of a user by ID.
-#### Response data:
+### Response data:
 ```
 {
   "message": "User Updated!",
@@ -131,9 +138,111 @@ Updates a body element of a user by ID.
 }
 ```
 
-#### POST /activities/
+## POST /api/classrooms
+Creates a new classroom.
+### Request body:
+```
+{
+	"name": "My Class",
+	"teacher": "588bb7e9a3518802df860925",
+	"expirationDate": "06/11/2017",
+	"imageUrl": "www.fakeimage.com"
+}
+```
+### Response data:
+```
+{
+  "message": "Classroom created!",
+  "classroom": {
+    "__v": 0,
+    "teacher": "588bb7e9a3518802df860925",
+    "expirationDate": "2017-06-11T04:00:00.000Z",
+    "imageUrl": "www.fakeimage.com",
+    "name": "My Class",
+    "_id": "589e40dc9802792a260eb6bb",
+    "students": [],
+    "id": "589e40dc9802792a260eb6bb"
+  }
+}
+```
+
+## GET /api/classrooms
+Returns a list of classrooms as classrooms, including subcategories nested.
+### Response data:
+```
+{
+  "message": "All classrooms returned!",
+  "classrooms": [
+    {
+      "_id": "589e40dc9802792a260eb6bb",
+      "teacher": "588bb7e9a3518802df860925",
+      "expirationDate": "2017-06-11T04:00:00.000Z",
+      "imageUrl": "www.fakeimage.com",
+      "name": "My Class",
+      "__v": 0,
+      "students": [],
+      "id": "589e40dc9802792a260eb6bb"
+    }
+  ]
+}
+```
+
+## GET /api/classrooms/:id
+Gets a classroom by ID.
+### Response data:
+```
+{
+  "message": "Single Classroom found!",
+  "classroom": {
+    "_id": "589e40dc9802792a260eb6bb",
+    "teacher": "588bb7e9a3518802df860925",
+    "expirationDate": "2017-06-11T04:00:00.000Z",
+    "imageUrl": "www.fakeimage.com",
+    "name": "My Class",
+    "__v": 0,
+    "students": [],
+    "id": "589e40dc9802792a260eb6bb"
+  }
+}
+```
+
+## DELETE /api/classrooms/:id
+Deletes a classroom if the delete is permitted.
+Returns a json error in the case of failure to delete.
+### Response data:
+```
+{
+  "message": "Classroom Removed!",
+  "classroom": {
+    "n": 1,
+    "ok": 1
+  }
+}
+```
+
+## PUT /api/classrooms/:id
+Updates a body element of a classroom by ID.
+### Request body:
+```
+{
+	"name": "Your Class"
+}
+```
+### Response data:
+```
+{
+  "message": "Classroom Updated!",
+  "classroom": {
+    "n": 1,
+    "nModified": 1,
+    "ok": 1
+  }
+}
+```
+
+## POST /api/activities
 Creates a new activity.
-#### Request body:
+### Request body:
 **Required Fields**
 ```
 {
@@ -145,8 +254,7 @@ Creates a new activity.
 ```
 Note: the `type` field for gradeLevels will be 1 for K-2, 2 for 3-5, 3 for 6-8.
 Note: the `type` field for category will be  1 for autism, 2 for hearing, 3 for visual, 4 for learning, 5 for physical, 6 for social, 7 for speech, 8 for cognitive.
-
-#### Optional Fields
+### Optional Fields
 ```
 {
   "name": "StringPlayer",
@@ -156,8 +264,7 @@ Note: the `type` field for category will be  1 for autism, 2 for hearing, 3 for 
   "shortName": "game",  // the text that will be used for the URL of the activity
 }
 ```
-
-#### Response data:
+### Response data:
 ```
 {
   "message": "Activity created!",
@@ -175,9 +282,9 @@ Note: the `type` field for category will be  1 for autism, 2 for hearing, 3 for 
 }
 ```
 
-#### GET /activities/
+## GET /api/activities
 Returns a list of activities as activities, including subcategories nested.
-#### Response data:
+### Response data:
 ```
 {
   "message": "All activities returned!",
@@ -201,9 +308,9 @@ Returns a list of activities as activities, including subcategories nested.
 }
 ```
 
-#### GET /activities/:id/
+## GET /api/activities/:id
 Gets an activity by ID.
-#### Response data:
+### Response data:
 ```
 {
   "message": "Single activity found!",
@@ -224,9 +331,10 @@ Gets an activity by ID.
   }
 }
 ```
-#### DELETE /activities/:id/
+
+## DELETE /api/activities/:id
 Deletes an activity if the delete is permitted. Returns a json error in the case of failure to delete.
-#### Response data:
+### Response data:
 ```
 {
   "message": "Activity Removed!",
@@ -237,9 +345,9 @@ Deletes an activity if the delete is permitted. Returns a json error in the case
 }
 ```
 
-#### PUT /users/:id/
+## PUT /api/activities/:id
 Updates a body element of an activity by ID.
-#### Response data:
+### Response data:
 ```
 {
   "message": "Activity Updated!",
@@ -252,7 +360,7 @@ Updates a body element of an activity by ID.
 ```
 
 
-#### POST /categories/
+## POST /api/categories
 Creates a new category
 ### Request body:
 **Required Fields**
@@ -263,8 +371,7 @@ Creates a new category
 }
 ```
 Note: gradeLevel is 1, 2, or 3 => 1 is "easy", 2 is "medium", 3 is "hard"
-
-#### Response data:
+### Response data:
 ```
 {
   "message": "category created!",
@@ -275,9 +382,10 @@ Note: gradeLevel is 1, 2, or 3 => 1 is "easy", 2 is "medium", 3 is "hard"
   }
 }
 ```
-#### GET /categories/
+
+## GET /api/categories/
 Returns a list of categories
-#### Response data:
+### Response data:
 ```
 {
   "message": "All categories returned!",
@@ -297,9 +405,10 @@ Returns a list of categories
   ]
 }
 ```
-#### GET /category/:id
+
+## GET /api/categories/:id
 Gets a category by its ID.
-#### Response data:
+### Response data:
 ```
 {
   "message": "Single Category found!",
@@ -312,28 +421,28 @@ Gets a category by its ID.
 }
 ```
 
-#### DELETE /categories/:id/
-Deletes a category if the delete is permitted. Returns a json error in the case of failure to delete.
-#### Response data:
-```
-{
-  "message": "Category Removed!",
-  "category": {
-    "n": 1,
-    "ok": 1
-  }
-}
-```
-
-#### PUT /categories/:id/
+## PUT /api/categories/:id/
 Updates a body element of a category by ID.
-#### Response data:
+### Response data:
 ```
 {
   "message": "Category Updated!",
   "category": {
     "n": 1,
     "nModified": 0,
+    "ok": 1
+  }
+}
+```
+
+## DELETE /api/categories/:id
+Deletes a category if the delete is permitted. Returns a json error in the case of failure to delete.
+### Response data:
+```
+{
+  "message": "Category Removed!",
+  "category": {
+    "n": 1,
     "ok": 1
   }
 }

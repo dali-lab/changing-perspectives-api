@@ -5,8 +5,7 @@ import ActivityModel from '../models/activity_model';
 export const createActivity = (req, res) => {
   const activity = new ActivityModel();
   activity.name = req.body.name;
-  activity.gradeLevels = req.body.gradeLevels;
-  activity.category = req.body.category;
+  activity.categories = req.body.categories;
   activity.url = req.body.url;
   activity.instructions = req.body.instructions;
   activity.body = req.body.body;
