@@ -1,21 +1,45 @@
 // user_controller.js
 
-import UserModel from '../models/user_model';
+import jwt from 'jwt-simple';
+import User from '../models/user_model';
+import dotenv from 'dotenv';
+dotenv.config({ silent: true });
 
-// TODO: add functionality to create many users at once
-export const createUser = (req, res) => {
-  const user = new UserModel();
+// encodes a new token for a user object
+function tokenForUser(user) {
+  const timestamp = new Date().getTime();
+  return jwt.encode({ sub: user.id, iat: timestamp }, process.env.API_SECRET);
+}
+
+export const signin = (req, res, next) => {
+  res.send({ token: tokenForUser(req.user) });
+};
+
+export const signup = (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const username = req.body.username;
+
+  if (!email || !password) {
+    return res.status(422).send('You must provide email and password');
+  }
+
+  User.findOne({ email })
+  .then(user => {
+    if (user) {
+      return res.status(422).send('User already exists');
+    }
+
+  const newUser = new User();
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
   user.username = req.body.username;
-  user.password = req.body.password;
   user.role = req.body.role;
   user.activities = req.body.activities;
+  user.gradeLevels = req.body.gradeLevels;
   user.categories = req.body.categories;
+  user.students = req.body.students;
   user.teacher = req.body.teacher;
-  user.mascot = req.body.mascot;
-  user.teacherClassrooms = req.body.teacherClassrooms;
-  user.studentClassroom = req.body.studentClassroom;
   user.expirationDate = req.body.expirationDate;
   console.log(req.body, user);
   user.save()
@@ -25,10 +49,10 @@ export const createUser = (req, res) => {
     .catch(error => {
       res.json({ error });
     });
-};
+
 
 // TODO: add functionality for a teacher to only get relevant students
-// TODO: add functionality to fill in activities, classroom, categories data
+// TODO: add functionality to fill in activities, gradeLevels, and categories
 export const getUsers = (req, res) => {
   UserModel.find()
     .then(result => {
