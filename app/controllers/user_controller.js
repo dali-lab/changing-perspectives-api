@@ -1,7 +1,7 @@
 // user_controller.js
 
 import jwt from 'jwt-simple';
-import User from '../models/user_model';
+import UserModel from '../models/user_model';
 import dotenv from 'dotenv';
 dotenv.config({ silent: true });
 
@@ -21,19 +21,19 @@ export const signup = (req, res, next) => {
   const username = req.body.username;
 
   if (!email || !password) {
-    return res.status(422).send('You must provide email and password');
+    res.status(422).send('You must provide email and password');
   }
 
-  User.findOne({ email })
+  UserModel.findOne({ email })
   .then(user => {
     if (user) {
-      return res.status(422).send('User already exists');
+      res.status(422).send('User already exists');
     }
-
-  const newUser = new User();
+  });
+  const user = new UserModel();
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
-  user.username = req.body.username;
+  user.username = username;
   user.role = req.body.role;
   user.activities = req.body.activities;
   user.gradeLevels = req.body.gradeLevels;
@@ -49,6 +49,7 @@ export const signup = (req, res, next) => {
     .catch(error => {
       res.json({ error });
     });
+};
 
 
 // TODO: add functionality for a teacher to only get relevant students
