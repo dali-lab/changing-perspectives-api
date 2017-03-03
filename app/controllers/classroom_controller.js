@@ -3,17 +3,6 @@
 import ClassroomModel from '../models/classroom_model';
 import { createClassroomStudents } from './user_controller';
 
-function formatClassroomForResponse(classroom) {
-  return classroom.populate('teacher students')
-    .exec((err, classrm) => {
-      console.log(err, classrm);
-      if (err) return err;
-      console.log(classrm);
-      return classrm;
-    });
-  // return classroomData;
-}
-
 export const createClassroom = (req, res) => {
   const classroom = new ClassroomModel();
   classroom.name = req.body.name;
