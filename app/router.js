@@ -6,14 +6,25 @@ import * as Activities from './controllers/activity_controller';
 import * as Classrooms from './controllers/classroom_controller';
 import * as Categories from './controllers/categoryController';
 
+import { requireAuth, requireSignin } from './services/passport';
+
 const router = new Router();
+
+router.route('/activities')
+  .post(requireAuth, Activities.createActivity)
+  .get(Activities.getActivities);
+
+router.route('/activities/:id')
+  .get(Activities.getActivity)
+  .put(requireAuth, Activities.updateActivity)
+  .delete(requireAuth, Activities.deleteActivity);
 
 router.route('/users')
   .get((req, res) => {
     Users.getUsers(req, res);
   })
   .post((req, res) => {
-    Users.createUser(req, res);
+    Users.signup(req, res);
   });
 
 router.route('/users/:id')
@@ -26,6 +37,9 @@ router.route('/users/:id')
   .delete((req, res) => {
     Users.deleteUser(req, res);
   });
+
+router.post('/signin', requireSignin, Users.signin);
+router.post('/signup', Users.signup);
 
 router.route('/classrooms')
   .get((req, res) => {
@@ -44,25 +58,6 @@ router.route('/classrooms/:id')
   })
   .delete((req, res) => {
     Classrooms.deleteClassroom(req, res);
-  });
-
-router.route('/activities')
-  .get((req, res) => {
-    Activities.getActivities(req, res);
-  })
-  .post((req, res) => {
-    Activities.createActivity(req, res);
-  });
-
-router.route('/activities/:id')
-  .get((req, res) => {
-    Activities.getActivity(req, res);
-  })
-  .put((req, res) => {
-    Activities.updateActivity(req, res);
-  })
-  .delete((req, res) => {
-    Activities.deleteActivity(req, res);
   });
 
 router.route('/categories')
