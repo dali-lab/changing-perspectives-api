@@ -1,6 +1,5 @@
 // classroom_controller.js
 
-import UserModel from '../models/user_model';
 import ClassroomModel from '../models/classroom_model';
 
 export const createClassroom = (req, res) => {

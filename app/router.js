@@ -19,7 +19,6 @@ router.route('/activities/:id')
   .put(requireAuth, Activities.updateActivity)
   .delete(requireAuth, Activities.deleteActivity);
 
-
 router.route('/users')
   .get((req, res) => {
     Users.getUsers(req, res);

@@ -25,18 +25,20 @@ const UserSchema = new Schema({
   }],
   firstName: String,
   lastName: String,
-  gradeLevels: [Number], // 1 => K-2, 2 => 3-5, 3 => 6-8
-  categories: [Number], // 1=>autism, 2=>hearing, 3=>visual, 4=>learning, 5=>physical, 6=>social, 7=>speech, 8=>cognitive
-  students: [{
+  categories: [{
     type: Schema.Types.ObjectId,
-    ref: 'User',
-  }], // this field will only be used when the user is a teacher
-  teacher: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-  }, // this field will only be used when the user is a student
+    ref: 'Category',
+  }],
   expirationDate: Date,
-  // mascot: Number, if we decide to allow users to select their mascot
+  mascot: Number, // if we decide to allow users to select their mascot
+  teacherClassrooms: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Classroom',
+  }], // list of a teacher's classrooms
+  studentClassroom: {
+    type: Schema.Types.ObjectId,
+    ref: 'Classroom',
+  }, // reference to a student's classroom
 });
 
 UserSchema.set('toJSON', {
