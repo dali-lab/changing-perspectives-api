@@ -5,6 +5,13 @@ import UserModel from '../models/user_model';
 import dotenv from 'dotenv';
 dotenv.config({ silent: true });
 
+function formatUserForResponse(user) {
+  console.log(user);
+  console.log(user.populate());
+  // const userData = {user.username, user.role, user.activities, user.firstName, user.lastName, user.gradeLevels, user.categories, user.students, user.teacher, user.expirationDate};
+  return userData;
+}
+
 // encodes a new token for a user object
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
@@ -16,35 +23,28 @@ export const signin = (req, res, next) => {
 };
 
 export const signup = (req, res, next) => {
-  const email = req.body.email;
   const password = req.body.password;
   const username = req.body.username;
 
-  if (!email || !password) {
+  if (!username || !password) {
     res.status(422).send('You must provide email and password');
   }
 
-  UserModel.findOne({ email })
+  UserModel.findOne({ username })
   .then(user => {
     if (user) {
       res.status(422).send('User already exists');
     }
   });
-  const user = new UserModel();
-  user.firstName = req.body.firstName;
-  user.lastName = req.body.lastName;
-  user.username = username;
-  user.role = req.body.role;
-  user.activities = req.body.activities;
-  user.gradeLevels = req.body.gradeLevels;
-  user.categories = req.body.categories;
-  user.students = req.body.students;
-  user.teacher = req.body.teacher;
-  user.expirationDate = req.body.expirationDate;
+  const user = new UserModel({ ...req.body });
+
   console.log(req.body, user);
+  console.log({ ...req.body });
   user.save()
     .then(result => {
-      res.json({ message: 'User created!', user: result });
+      // const userData = { ...result };
+      // userData.password = null;
+      res.json({ message: 'User created!', user: formatUserForResponse(result) });
     })
     .catch(error => {
       res.json({ error });
