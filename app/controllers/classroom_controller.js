@@ -1,5 +1,6 @@
 // classroom_controller.js
 
+import UserModel from '../models/user_model';
 import ClassroomModel from '../models/classroom_model';
 
 export const createClassroom = (req, res) => {
@@ -16,45 +17,6 @@ export const createClassroom = (req, res) => {
     .catch(error => {
       res.json({ error });
     });
-};
-
-export const signup = (req, res, next) => {
-  const password = req.body.password;
-  const username = req.body.username;
-
-  if (!username || !password) {
-    res.status(422).send('You must provide email and password');
-  }
-
-  UserModel.findOne({ username })
-  .then(user => {
-    if (user) {
-      res.status(422).send('User already exists');
-    }
-  });
-  const user = new UserModel({ ...req.body });
-
-  console.log(req.body, user);
-  console.log({ ...req.body });
-  user.save()
-    .then(result => {
-      // const userData = { ...result };
-      // userData.password = null;
-      res.json({ message: 'User created!', user: formatUserForResponse(result) });
-    })
-    .catch(error => {
-      res.json({ error });
-    });
-};
-
-export const createClassroomStudents = (req, res) => {
-  signup();
-  const randomPasswords = ['gateway', 'alliance', 'elephant', 'liberty', 'astronaut',
-  'tricycle', 'potential', 'population', 'guidebook', 'companion', 'generation', 'discussion',
-   'quotation', 'adjective', 'dialogue', 'compassion', 'empathetic', 'amusement', 'serenity'];
-  const usernameInitials = req.body.firstName.charAt(0) + req.body.lastName.charAt(0);
-  const val = Math.floor(100 + Math.random() * 900);
-  const generatedUsername = usernameInitials.toLowerCase() + val.toString();
 };
 
 // TODO: add functionality to only get teacher-specific classrooms

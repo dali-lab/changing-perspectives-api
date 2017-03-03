@@ -5,10 +5,29 @@ import UserModel from '../models/user_model';
 import dotenv from 'dotenv';
 dotenv.config({ silent: true });
 
+const generateUsername = (name) => {
+  const firstName = (name.firstName) ? name.firstName : name.split(' ')[0];
+  const lastName = (name.lastName) ? name.lastName : name.split(' ')[1];
+  const usernameText = firstName.charAt(0) + lastName;
+  const val = Math.floor(100 + Math.random() * 900);
+  return usernameText.toLowerCase().concat(val.toString());
+};
+
+const generatePassword = () => {
+  const randomPasswords = ['gateway', 'alliance', 'elephant', 'liberty', 'astronaut',
+  'tricycle', 'potential', 'population', 'guidebook', 'companion', 'generation', 'discussion',
+   'quotation', 'adjective', 'dialogue', 'compassion', 'empathetic', 'amusement', 'serenity'];
+  const randomIndex = Math.floor(Math.random() * randomPasswords.length);
+  const currentPassword = randomPasswords[randomIndex];
+  const passwordVal = Math.floor(10 + Math.random() * 90);
+  return currentPassword.concat(passwordVal.toString());
+};
+
+
 function formatUserForResponse(user) {
   console.log(user);
   console.log(user.populate());
-  // const userData = {user.username, user.role, user.activities, user.firstName, user.lastName, user.gradeLevels, user.categories, user.students, user.teacher, user.expirationDate};
+  const userData = { user: user.username, role: user.role, activities: user.activities, firstName: user.firstName, lastName: user.lastName, gradeLevels: user.gradeLevels, categories: user.categories, students: user.students, teacher: user.teacher, expirationDate: user.expirationDate };
   return userData;
 }
 
@@ -23,8 +42,11 @@ export const signin = (req, res, next) => {
 };
 
 export const signup = (req, res, next) => {
-  const password = req.body.password;
-  const username = req.body.username;
+  const password = req.body.password || generatePassword();
+  const username = req.body.username || generateUsername({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+  });
 
   if (!username || !password) {
     res.status(422).send('You must provide email and password');
@@ -51,10 +73,25 @@ export const signup = (req, res, next) => {
     });
 };
 
+const createClassroomStudents = (req, res) => {
+  const nameList = req.body.students;
+  for (let i = 0; i < nameList.length; i += 1) {
+    const currentName = nameList[i].split(' ');
+    signup({
+      body: {
+        firstName: currentName[0],
+        lastName: currentName[1],
+        role: 3,
+      },
+    }, res);
+  }
+};
+
 
 // TODO: add functionality for a teacher to only get relevant students
 // TODO: add functionality to fill in activities, gradeLevels, and categories
 export const getUsers = (req, res) => {
+// get should return only the user that is logged in right now
   UserModel.find()
     .then(result => {
       res.json({ message: 'All users returned!', users: result });

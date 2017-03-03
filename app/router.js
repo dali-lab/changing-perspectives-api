@@ -25,7 +25,7 @@ router.route('/users')
     Users.getUsers(req, res);
   })
   .post((req, res) => {
-    Users.createUser(req, res);
+    Users.signup(req, res);
   });
 
 router.route('/users/:id')
