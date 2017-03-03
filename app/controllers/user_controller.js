@@ -25,9 +25,8 @@ const generatePassword = () => {
 
 
 function formatUserForResponse(user) {
-  console.log(user);
-  console.log(user.populate());
-  const userData = { user: user.username, role: user.role, activities: user.activities, firstName: user.firstName, lastName: user.lastName, gradeLevels: user.gradeLevels, categories: user.categories, students: user.students, teacher: user.teacher, expirationDate: user.expirationDate };
+  const userData = user.populate();
+  userData.password = '';
   return userData;
 }
 
@@ -52,24 +51,38 @@ export const signup = (req, res, next) => {
     res.status(422).send('You must provide email and password');
   }
 
-  UserModel.findOne({ username })
-  .then(user => {
-    if (user) {
-      res.status(422).send('User already exists');
-    }
-  });
   const user = new UserModel({ ...req.body });
-
-  console.log(req.body, user);
-  console.log({ ...req.body });
   user.save()
     .then(result => {
-      // const userData = { ...result };
-      // userData.password = null;
       res.json({ message: 'User created!', user: formatUserForResponse(result) });
     })
     .catch(error => {
-      res.json({ error });
+      if (error.code === 11000) {
+        // find all usernames that have the same starting characters
+        const usernameText = user.firstName.charAt(0) + user.lastName;
+        const regex = new RegExp(`^${usernameText.toLowerCase()}.*`, 'i');
+        console.log(regex);
+        UserModel.find({ username: regex })
+          .then(userList => {
+            console.log(userList);
+            const userNames = userList.map(u => { return u.username; });
+            let newUsername = generateUsername(user);
+            while (userNames.indexOf(newUsername) >= 0) {
+              newUsername = generateUsername(user);
+            }
+            user.username = newUsername;
+            user.save()
+              .then(result => {
+                res.json({ message: 'User created!', user: formatUserForResponse(result) });
+              })
+              .catch(err => {
+                res.json({ err });
+              });
+          })
+          .catch(err => {
+            res.json({ err });
+          });
+      }
     });
 };
 
@@ -86,7 +99,6 @@ const createClassroomStudents = (req, res) => {
     }, res);
   }
 };
-
 
 // TODO: add functionality for a teacher to only get relevant students
 // TODO: add functionality to fill in activities, gradeLevels, and categories
