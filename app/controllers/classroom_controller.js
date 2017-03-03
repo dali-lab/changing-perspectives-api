@@ -1,16 +1,33 @@
 // classroom_controller.js
 
 import ClassroomModel from '../models/classroom_model';
+import { createClassroomStudents } from './user_controller';
+
+function formatClassroomForResponse(classroom) {
+  return classroom.populate('teacher students')
+    .exec((err, classrm) => {
+      console.log(err, classrm);
+      if (err) return err;
+      console.log(classrm);
+      return classrm;
+    });
+  // return classroomData;
+}
 
 export const createClassroom = (req, res) => {
   const classroom = new ClassroomModel();
   classroom.name = req.body.name;
   classroom.imageUrl = req.body.imageUrl;
-  classroom.students = req.body.students;
+  // classroom.students = req.body.students;
+  // classroom.students = createClassroomStudents(req, res);
   classroom.teacher = req.body.teacher;
   classroom.expirationDate = req.body.expirationDate;
   classroom.save()
     .then(result => {
+      // res.json({ message: 'Classroom created!', classroom: result });
+      const reqData = { ...req.body, studentClassroom: classroom.id };
+      console.log(reqData);
+      createClassroomStudents(reqData, classroom);
       res.json({ message: 'Classroom created!', classroom: result });
     })
     .catch(error => {
@@ -30,7 +47,7 @@ export const getClassrooms = (req, res) => {
 };
 
 export const getClassroom = (req, res) => {
-  ClassroomModel.findById(req.params.id)
+  ClassroomModel.findById(req.params.id).populate('teacher students')
     .then(result => {
       res.json({ message: 'Single Classroom found!', classroom: result });
     })

@@ -6,8 +6,8 @@ import dotenv from 'dotenv';
 dotenv.config({ silent: true });
 
 const generateUsername = (name) => {
-  const firstName = (name.firstName) ? name.firstName : name.split(' ')[0];
-  const lastName = (name.lastName) ? name.lastName : name.split(' ')[1];
+  const firstName = name.firstName;
+  const lastName = name.lastName;
   const usernameText = firstName.charAt(0) + lastName;
   const val = Math.floor(100 + Math.random() * 900);
   return usernameText.toLowerCase().concat(val.toString());
@@ -86,17 +86,54 @@ export const signup = (req, res, next) => {
     });
 };
 
-const createClassroomStudents = (req, res) => {
-  const nameList = req.body.students;
+export const createClassroomStudents = (body, classroom) => {
+  const nameList = body.students;
   for (let i = 0; i < nameList.length; i += 1) {
     const currentName = nameList[i].split(' ');
-    signup({
-      body: {
-        firstName: currentName[0],
-        lastName: currentName[1],
-        role: 3,
-      },
-    }, res);
+    const firstName = currentName[0];
+    const lastName = currentName[1];
+    const username = generateUsername({ firstName, lastName });
+    const password = generatePassword();
+    const user = new UserModel({
+      role: 3,
+      studentClassroom: classroom.id,
+      firstName, lastName, username, password,
+    });
+    user.save()
+      .then(result => {
+        classroom.students.push(result);
+        if (classroom.students.length === nameList.length) {
+          classroom.save((r) => {
+            console.log('classroom updated with students, result: ', r);
+          });
+        }
+      })
+      .catch(error => {
+        if (error.code === 11000) {
+          // find all usernames that have the same starting characters
+          const usernameText = user.firstName.charAt(0) + user.lastName;
+          const regex = new RegExp(`^${usernameText.toLowerCase()}.*`, 'i');
+          UserModel.find({ username: regex })
+            .then(userList => {
+              const userNames = userList.map(u => { return u.username; });
+              let newUsername = generateUsername(user);
+              while (userNames.indexOf(newUsername) >= 0) {
+                newUsername = generateUsername(user);
+              }
+              user.username = newUsername;
+              user.save()
+                .then(result => {
+                  console.log('student created: ', result);
+                  classroom.students.push(result);
+                  if (classroom.students.length === nameList.length) {
+                    classroom.save((r) => {
+                      console.log('classroom updated with student, result: ', r);
+                    });
+                  }
+                });
+            });
+        }
+      });
   }
 };
 
