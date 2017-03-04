@@ -7,8 +7,6 @@ export const createClassroom = (req, res) => {
   const classroom = new ClassroomModel();
   classroom.name = req.body.name;
   classroom.imageUrl = req.body.imageUrl;
-  // classroom.students = req.body.students;
-  // classroom.students = createClassroomStudents(req, res);
   classroom.teacher = req.body.teacher;
   classroom.expirationDate = req.body.expirationDate;
   classroom.save()

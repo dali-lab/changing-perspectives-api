@@ -40,7 +40,7 @@ export const signin = (req, res, next) => {
   res.send({ token: tokenForUser(req.user) });
 };
 
-export const signup = (req, res, next) => {
+export const createUser = (req, res, next) => {
   const password = req.body.password || generatePassword();
   const username = req.body.username || generateUsername({
     firstName: req.body.firstName,
@@ -61,10 +61,8 @@ export const signup = (req, res, next) => {
         // find all usernames that have the same starting characters
         const usernameText = user.firstName.charAt(0) + user.lastName;
         const regex = new RegExp(`^${usernameText.toLowerCase()}.*`, 'i');
-        console.log(regex);
         UserModel.find({ username: regex })
           .then(userList => {
-            console.log(userList);
             const userNames = userList.map(u => { return u.username; });
             let newUsername = generateUsername(user);
             while (userNames.indexOf(newUsername) >= 0) {
@@ -140,14 +138,31 @@ export const createClassroomStudents = (body, classroom) => {
 // TODO: add functionality for a teacher to only get relevant students
 // TODO: add functionality to fill in activities, gradeLevels, and categories
 export const getUsers = (req, res) => {
-// get should return only the user that is logged in right now
-  UserModel.find()
-    .then(result => {
-      res.json({ message: 'All users returned!', users: result });
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+  // will return only the user that is logged in right now
+  if (req.user) {
+    let fieldsToPopulate = '';
+    if (req.user.role === 2) { // if the user is a teacher
+      fieldsToPopulate = 'teacherClassroooms activities';
+    } else if (req.user.role === 3) { // if the user is a student
+      fieldsToPopulate = 'activities categories studentClassroom';
+    }
+    UserModel.findById(req.user.id).populate(fieldsToPopulate)
+      .then(result => {
+        console.log(result);
+        res.json({
+          message: 'Returning authenticated user',
+          user: formatUserForResponse(result),
+        });
+      });
+  } else {
+    UserModel.find()
+      .then(result => {
+        res.json({ message: 'All users returned!', users: result });
+      })
+      .catch(error => {
+        res.json({ error });
+      });
+  }
 };
 
 // TODO: add functionality to fill in activities, gradeLevels, and categories

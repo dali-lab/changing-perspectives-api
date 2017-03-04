@@ -31,6 +31,10 @@ const UserSchema = new Schema({
   }],
   expirationDate: Date,
   mascot: Number, // if we decide to allow users to select their mascot
+  teacherClassrooms: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Classroom',
+  }], // list of a teacher's classrooms
   studentClassroom: {
     type: Schema.Types.ObjectId,
     ref: 'Classroom',
