@@ -140,15 +140,14 @@ export const createClassroomStudents = (body, classroom) => {
 export const getUsers = (req, res) => {
   // will return only the user that is logged in right now
   if (req.user) {
-    let fieldsToPopulate = '';
+    let fieldsToPopulate = 'activities categories';
     if (req.user.role === 2) { // if the user is a teacher
-      fieldsToPopulate = 'teacherClassroooms activities';
+      fieldsToPopulate = fieldsToPopulate.concat(' teacherClassrooms');
     } else if (req.user.role === 3) { // if the user is a student
-      fieldsToPopulate = 'activities categories studentClassroom';
+      fieldsToPopulate = fieldsToPopulate.concat(' studentClassroom');
     }
     UserModel.findById(req.user.id).populate(fieldsToPopulate)
       .then(result => {
-        console.log(result);
         res.json({
           message: 'Returning authenticated user',
           user: formatUserForResponse(result),

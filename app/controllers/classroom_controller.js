@@ -7,7 +7,7 @@ export const createClassroom = (req, res) => {
   const classroom = new ClassroomModel();
   classroom.name = req.body.name;
   classroom.imageUrl = req.body.imageUrl;
-  classroom.teacher = req.body.teacher;
+  classroom.teacher = req.user;
   classroom.expirationDate = req.body.expirationDate;
   classroom.save()
     .then(result => {
@@ -15,6 +15,8 @@ export const createClassroom = (req, res) => {
       const reqData = { ...req.body, studentClassroom: classroom.id };
       console.log(reqData);
       createClassroomStudents(reqData, classroom);
+      req.user.teacherClassrooms.push(classroom);
+      req.user.save().then(r => { console.log('teacher updated with classroom', r); });
       res.json({ message: 'Classroom created!', classroom: result });
     })
     .catch(error => {
