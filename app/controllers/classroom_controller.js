@@ -36,7 +36,11 @@ export const getClassrooms = (req, res) => {
 };
 
 export const getClassroom = (req, res) => {
-  ClassroomModel.findById(req.params.id).populate('teacher students')
+  // if req.user doesn't have a classroom with that id, return 422 unauthorized
+  if (req.user !== req.params.teacher) {
+    res.status(422).send('Unauthorized.');
+  }
+  ClassroomModel.findById(req.params.id).populate('students')
     .then(result => {
       res.json({ message: 'Single Classroom found!', classroom: result });
     })

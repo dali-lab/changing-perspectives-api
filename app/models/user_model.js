@@ -55,7 +55,9 @@ UserSchema.methods.comparePassword = function comparePassword(candidatePassword,
 
 UserSchema.pre('save', function beforeUserSave(next) {
   const user = this;
-
+  if (user.role === 3) {
+    return next();
+  }
   // only hash the password if it has been modified (or is new)
   if (!user.isModified('password')) return next();
   return bcrypt.genSalt(10, (err, salt) => {
