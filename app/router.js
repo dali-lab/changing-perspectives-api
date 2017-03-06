@@ -10,73 +10,43 @@ import { requireAuth, requireSignin } from './services/passport';
 
 const router = new Router();
 
+router.post('/signin', requireSignin, Users.signin);
+router.post('/signup', Users.createUser);
+
+router.route('/users')
+  .get(requireAuth, Users.getUsers)
+  .post(requireAuth, Users.createUser);
+
+router.route('/users/:id')
+  .get(requireAuth, Users.getUser)
+  .put(requireAuth, Users.updateUser)
+  .delete(requireAuth, Users.deleteUser);
+
 router.route('/activities')
   .post(requireAuth, Activities.createActivity)
-  .get(Activities.getActivities);
+  .get(requireAuth, Activities.getActivities);
 
 router.route('/activities/:id')
-  .get(Activities.getActivity)
+  .get(requireAuth, Activities.getActivity)
   .put(requireAuth, Activities.updateActivity)
   .delete(requireAuth, Activities.deleteActivity);
 
-router.route('/users')
-  .get((req, res) => {
-    Users.getUsers(req, res);
-  })
-  .post((req, res) => {
-    Users.signup(req, res);
-  });
-
-router.route('/users/:id')
-  .get((req, res) => {
-    Users.getUser(req, res);
-  })
-  .put((req, res) => {
-    Users.updateUser(req, res);
-  })
-  .delete((req, res) => {
-    Users.deleteUser(req, res);
-  });
-
-router.post('/signin', requireSignin, Users.signin);
-router.post('/signup', Users.signup);
-
 router.route('/classrooms')
-  .get((req, res) => {
-    Classrooms.getClassrooms(req, res);
-  })
-  .post((req, res) => {
-    Classrooms.createClassroom(req, res);
-  });
+  .get(requireAuth, Classrooms.getClassrooms)
+  .post(requireAuth, Classrooms.createClassroom);
 
 router.route('/classrooms/:id')
-  .get((req, res) => {
-    Classrooms.getClassroom(req, res);
-  })
-  .put((req, res) => {
-    Classrooms.updateClassroom(req, res);
-  })
-  .delete((req, res) => {
-    Classrooms.deleteClassroom(req, res);
-  });
+  .get(requireAuth, Classrooms.getClassroom)
+  .put(requireAuth, Classrooms.updateClassroom)
+  .delete(requireAuth, Classrooms.deleteClassroom);
 
 router.route('/categories')
-    .get((req, res) => {
-      Categories.getCategories(req, res);
-    })
-    .post((req, res) => {
-      Categories.createCategory(req, res);
-    });
+    .get(requireAuth, Categories.getCategories)
+    .post(requireAuth, Categories.createCategory);
 
 router.route('/categories/:id')
-      .get((req, res) => {
-        Categories.getCategory(req, res);
-      })
-      .put((req, res) => {
-        Categories.updateCategory(req, res);
-      })
-      .delete((req, res) => {
-        Categories.deleteCategory(req, res);
-      });
+      .get(requireAuth, Categories.getCategory)
+      .put(requireAuth, Categories.updateCategory)
+      .delete(requireAuth, Categories.deleteCategory);
 
 export default router;
