@@ -57,3 +57,35 @@ export const updateCategory = (req, res) => {
       res.json({ error });
     });
 };
+
+export const autoLoadCategories = (req, res) => {
+  CategoryModel.find().count().then((result) => {
+    if (result === 24) {
+      res.json({ message: 'Categories already exist' });
+    } else {
+      const categoryNames = ['Autism', 'Hearing Loss', 'Blindness',
+        'Learning Disability', 'Physical Disability', 'Social Disability',
+        'Language', 'Cognitive Delays'];
+      const gradeLevels = [1, 2, 3];
+      const categoryUrls = ['autism', 'hearing', 'blindness', 'learning',
+        'physical', 'social', 'language', 'cognitive'];
+      const categories = [];
+      for (let i = 0; i < categoryNames.length; i += 1) {
+        for (let j = 0; j < gradeLevels.length; j += 1) {
+          const category = {
+            name: categoryNames[i],
+            gradeLevel: gradeLevels[j],
+            url: categoryUrls[i],
+          };
+          categories.push(category);
+        }
+      }
+      CategoryModel.create(categories).then(r => {
+        res.json({ message: 'Categories created.', data: r });
+      });
+    }
+  })
+  .catch(error => {
+    res.json({ error });
+  });
+};

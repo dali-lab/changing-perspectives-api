@@ -12,6 +12,7 @@ const router = new Router();
 
 router.post('/signin', requireSignin, Users.signin);
 router.post('/signup', Users.createUser);
+router.post('/create-categories', Categories.autoLoadCategories);
 
 router.route('/users')
   .get(requireAuth, Users.getUsers)
