@@ -10,11 +10,13 @@ To set up the dev environment, just run `npm install`.
 
 To run the development server, run `npm run dev`.
 To run the production server, run `npm run prod`.
+Any commit to the master branch will automatically get deployed to heroku and the live production server can be found on [Heroku](http://changing-perspectives-api.herokuapp.com/).
 
 ## Architecture
 
 * node with babel
 * expressjs
+* mongoose
 * mongoDB
 
 Procfile set up to run on [heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)
@@ -447,15 +449,6 @@ Deletes a category if the delete is permitted. Returns a json error in the case 
   }
 }
 ```
-
-## Setup
-
-To set up the dev environment, just run `npm install`.
-
-## Deployment
-
-To run the development server, run `npm run dev`.
-Any commit to the master branch will automatically get deployed to heroku and the live server can be found on [Heroku](http://changing-perspectives-api.herokuapp.com/).
 
 ## Authors
 
